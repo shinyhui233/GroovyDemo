@@ -1,0 +1,33 @@
+include ':groovy'
+include ':app'
+rootProject.name = "GroovyDemo"
+//project(':app').projectDir = new File(settingsDir, "")
+gradle.addBuildListener(new BuildListener() {
+    @Override
+    void buildStarted(Gradle gradle) {
+        println "构建开始"
+    }
+
+    @Override
+    void settingsEvaluated(Settings settings) {
+        println "settings评估结束,即执行完settings.gradle代码"
+        println "settings evaluated: root project is $settings.rootProject"
+    }
+
+    @Override
+    void projectsLoaded(Gradle gradle) {
+        println "所有项目加载完成（初始化阶段完成）"
+        println "projects loaded: root project is $settings.rootProject"
+        gradle.rootProject.allprojects.each {println "Project's name is $it.name"}
+    }
+
+    @Override
+    void projectsEvaluated(Gradle gradle) {
+        println "build.gradle执行完毕,即配置阶段结束"
+    }
+
+    @Override
+    void buildFinished(BuildResult result) {
+        println "构建结束"
+    }
+})
