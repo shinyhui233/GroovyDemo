@@ -2,7 +2,7 @@ package com.mi.war.groovy
 
 import org.codehaus.groovy.runtime.InvokerHelper
 
-class MyMetaClass extends MetaClassImpl {
+class MyMetaClass extends DelegatingMetaClass {
 
     MyMetaClass(Class theClass) {
         super(theClass)
@@ -12,13 +12,18 @@ class MyMetaClass extends MetaClassImpl {
         "MyMetaClass: ${super.invokeMethod(object, methodName, arguments)}"
     }
 
+    @Override
+    Object invokeMissingMethod(Object instance, String methodName, Object[] arguments) {
+        return super.invokeMissingMethod(instance, methodName, arguments)
+    }
 }
 
 class Person {
     String name
     Integer age
-//    Person(String name) {
-//        this.name = name
+
+//    def speak(String msg) {
+//        "speak by myself: $msg"
 //    }
 
     @Override
@@ -31,14 +36,19 @@ class Person {
     }
 }
 
-// rookie = new Person("wjh")
+def rookie = new Person()
 def meta = new MyMetaClass(Person)
-meta.initialize()
-//rookie.metaClass = meta
-//rookie.metaClass.speak = {msg -> "call metaClass: $msg"}
-//println rookie.speak("have meat? speak louder")
+//meta.initialize()
+rookie.metaClass = meta
+println rookie.speak("have meat? speak louder")
 
-Person.metaClass.constructor = {String name, int age -> new Person(name:name, age:age)}
-//InvokerHelper.metaRegistry.setMetaClass(Person, meta)
-def passersby = new Person("war", 26)
-println "$passersby.name is $passersby.age"
+InvokerHelper.metaRegistry.setMetaClass(Person, meta)
+
+def noob = new Person()
+println noob.speak("the early birds eats the worm.")
+
+//rookie.metaClass.speak = {msg -> "call metaClass: $msg"}
+
+//Person.metaClass.constructor = {String name, int age -> new Person(name:name, age:age)}
+//def passersby = new Person("war", 26)
+//println "$passersby.name is $passersby.age"
