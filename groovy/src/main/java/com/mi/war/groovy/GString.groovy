@@ -41,6 +41,8 @@ def quotationMark = '''one
 two
 three'''
 assert quotationMark instanceof String
+def y = '"'
+println y
 
 println slashStr
 println quotationMark

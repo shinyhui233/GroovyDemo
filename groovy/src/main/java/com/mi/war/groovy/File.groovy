@@ -2,6 +2,11 @@ package com.mi.war.groovy
 
 import groovy.transform.Field
 
+ext{
+    age =20
+}
+println ext.age
+
 @Field FILE_DIR = '/home/mi'
 @Field FILE_NAME = '常用命令.txt'
 void readFile() {

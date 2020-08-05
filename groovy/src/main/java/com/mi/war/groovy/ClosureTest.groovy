@@ -2,28 +2,6 @@ package com.mi.war.groovy
 
 import groovy.transform.Field
 
-
-/** 无参 */
-def noParam = { -> println '无参闭包'}
-
-def oneParam_1 = {println "$it is same as oneParam_2!"}
-
-Closure oneParam_2 = {it -> println "$it is same as oneParam_1!"}
-
-Closure oneParam_3 = {String msg -> println msg}
-
-Closure<Boolean> twoParams = {String name, int num ->
-    println "Hi, $name! This is a closure that contains $num paramaters."
-    name.equalsIgnoreCase('Wang Jiahui')
-}
-
-assert  noParam instanceof Closure
-oneParam_1('test2')
-oneParam_2('test3')
-oneParam_3('this is same as the above two!')
-twoParams.call("Wang Jiahui",2)
-
-
 class Enclosing {
     void run() {
         def whatIsThisObject = {getThisObject()}
@@ -97,8 +75,6 @@ class Priority {
     class Inner {
         String priority_level
     }
-
-
 }
 
 def fib
